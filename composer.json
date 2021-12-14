@@ -1,0 +1,30 @@
+{
+  "name": "lupuscoding/ms-teams",
+  "description": "Easily send messages to MS Teams.",
+  "version": "1.0.0",
+  "type": "library",
+  "keywords": ["microsoft","teams"],
+  "homepage": "http://github.com/lupuscoding/ms-teams",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ralph Dittrich",
+      "email": "dittrich.ralph@lupuscoding.de",
+      "homepage": "http://lupuscoding.de",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-json": "*",
+    "ext-curl": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "LupusCoding\\Webhooks\\Teams\\": "src/"
+    }
+  }
+}
