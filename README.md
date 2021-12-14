@@ -16,7 +16,7 @@ A small library to create messages for Microsoft Teams.
 ## Install <a id="install" href="#install">#</a>
 
 ```shell
-composer require lupuscoding/ms-teams
+composer require lupuscoding/webhook-teams
 ```
 
 ## Usage <a id="usage" href="#usage">#</a>
