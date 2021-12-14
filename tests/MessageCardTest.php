@@ -15,6 +15,9 @@ use PHPUnit\Framework\TestCase;
  */
 class MessageCardTest extends TestCase
 {
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\MessageCard
+     */
     public function testCanCreateMessageCard(): void
     {
         $card = new MessageCard();
@@ -27,6 +30,10 @@ class MessageCardTest extends TestCase
         $this->assertEquals('This is a summary', $card->getSummary());
     }
 
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\MessageCard
+     * @covers \LupusCoding\Webhooks\Teams\MessageSection
+     */
     public function testCanCreateAndAddSections(): void
     {
         $card = new MessageCard();
@@ -35,6 +42,10 @@ class MessageCardTest extends TestCase
 
     }
 
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\MessageCard
+     * @covers \LupusCoding\Webhooks\Teams\MessageSection
+     */
     public function testCanSetupSection(): void
     {
         $section = $this->createMessageSection();
@@ -58,6 +69,10 @@ class MessageCardTest extends TestCase
             ->setMarkdown(false);
     }
 
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\MessageCard
+     * @covers \LupusCoding\Webhooks\Teams\MessageAction\OpenUri
+     */
     public function testCanCreateAndAddPotentialAction(): void
     {
         $card = new MessageCard();
@@ -67,6 +82,9 @@ class MessageCardTest extends TestCase
         $this->assertInstanceOf(OpenUri::class, $card->getPotentialActions()[0]);
     }
 
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\MessageCard
+     */
     public function testCanSerializeMinimalCard(): void
     {
         $card = new MessageCard();
@@ -79,9 +97,15 @@ class MessageCardTest extends TestCase
             ]),
             json_encode($card)
         );
-        print_r(__METHOD__ . ' JSON: ' . json_encode($card->jsonSerialize()));
+        // uncomment debug output if required:
+//        print_r(__METHOD__ . ' JSON: ' . json_encode($card->jsonSerialize()));
     }
 
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\MessageCard
+     * @covers \LupusCoding\Webhooks\Teams\MessageSection
+     * @covers \LupusCoding\Webhooks\Teams\MessageAction\OpenUri
+     */
     public function testCanSerializeFullCard(): void
     {
         $card = new MessageCard();
@@ -99,7 +123,8 @@ class MessageCardTest extends TestCase
             json_encode($assertData),
             json_encode($card)
         );
-        print_r(__METHOD__ . ' JSON: ' . json_encode($card->jsonSerialize()));
+        // uncomment debug output if required:
+//        print_r(__METHOD__ . ' JSON: ' . json_encode($card->jsonSerialize()));
     }
 
     private function getSerializationAssertionData(): array
@@ -138,6 +163,11 @@ class MessageCardTest extends TestCase
         ];
     }
 
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\MessageCard
+     * @covers \LupusCoding\Webhooks\Teams\MessageSection
+     * @covers \LupusCoding\Webhooks\Teams\MessageAction\OpenUri
+     */
     public function testSendMessageCard(): void
     {
         $success = false;
@@ -171,7 +201,8 @@ class MessageCardTest extends TestCase
         } else {
             $success = true;
         }
-        print_r(__METHOD__ . ' Result: ' . $result);
+        // uncomment debug output if required:
+//        print_r(__METHOD__ . ' Result: ' . $result);
 
         curl_close($ch);
         $this->assertTrue($success);

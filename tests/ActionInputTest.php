@@ -14,6 +14,9 @@ use PHPUnit\Framework\TestCase;
 class ActionInputTest extends TestCase
 {
 
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\Input\DateInput
+     */
     public function testCanSetupDateInput(): void
     {
         $input = $this->createDateInput();
@@ -30,6 +33,9 @@ class ActionInputTest extends TestCase
             ;
     }
 
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\Input\MultichoiceInput
+     */
     public function testCanSetupMultichoiceInput(): void
     {
         $input = $this->createMultichoiceInput();
@@ -52,6 +58,9 @@ class ActionInputTest extends TestCase
             ;
     }
 
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\Input\TextInput
+     */
     public function testCanSetupTextInput(): void
     {
         $input = $this->createTextInput();

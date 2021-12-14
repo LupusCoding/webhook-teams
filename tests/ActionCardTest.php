@@ -15,6 +15,9 @@ use PHPUnit\Framework\TestCase;
  */
 class ActionCardTest extends TestCase
 {
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\ActionCard
+     */
     public function testCanCreateMessageCard(): void
     {
         $card = new ActionCard();
@@ -27,6 +30,10 @@ class ActionCardTest extends TestCase
         $this->assertEquals('Example action', $card->getName());
     }
 
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\ActionCard
+     * @covers \LupusCoding\Webhooks\Teams\Input\TextInput
+     */
     public function testCanCreateAndAddInput(): void
     {
         $card = new ActionCard();
@@ -34,6 +41,10 @@ class ActionCardTest extends TestCase
         $this->assertInstanceOf(TextInput::class, $card->getInputs()[0]);
     }
 
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\ActionCard
+     * @covers \LupusCoding\Webhooks\Teams\CardAction\HttpPost
+     */
     public function testCanCreateAndAddAction(): void
     {
         $card = new ActionCard();
@@ -41,6 +52,9 @@ class ActionCardTest extends TestCase
         $this->assertInstanceOf(HttpPost::class, $card->getActions()[0]);
     }
 
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\ActionCard
+     */
     public function testCanSerializeMinimalCard(): void
     {
         $card = new ActionCard();
@@ -53,9 +67,15 @@ class ActionCardTest extends TestCase
             ]),
             json_encode($card)
         );
-        print_r(__METHOD__ . ' JSON: ' . json_encode($card->jsonSerialize()));
+        // uncomment debug output if required:
+//        print_r(__METHOD__ . ' JSON: ' . json_encode($card->jsonSerialize()));
     }
 
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\ActionCard
+     * @covers \LupusCoding\Webhooks\Teams\Input\TextInput
+     * @covers \LupusCoding\Webhooks\Teams\CardAction\HttpPost
+     */
     public function testCanSerializeFullCard(): void
     {
         $card = new ActionCard();
@@ -68,7 +88,8 @@ class ActionCardTest extends TestCase
             json_encode($assertData),
             json_encode($card)
         );
-        print_r(__METHOD__ . ' JSON: ' . json_encode($card->jsonSerialize()));
+        // uncomment debug output if required:
+//        print_r(__METHOD__ . ' JSON: ' . json_encode($card->jsonSerialize()));
     }
 
     private function createTextInput(): TextInput
@@ -112,6 +133,11 @@ class ActionCardTest extends TestCase
         ];
     }
 
+    /**
+     * @covers \LupusCoding\Webhooks\Teams\ActionCard
+     * @covers \LupusCoding\Webhooks\Teams\Input\TextInput
+     * @covers \LupusCoding\Webhooks\Teams\CardAction\HttpPost
+     */
     public function testSendActionCard(): void
     {
         $success = false;
@@ -141,7 +167,8 @@ class ActionCardTest extends TestCase
         } else {
             $success = true;
         }
-        print_r(__METHOD__ . ' Result: ' . $result);
+        // uncomment debug output if required:
+//        print_r(__METHOD__ . ' Result: ' . $result);
 
         curl_close($ch);
         $this->assertTrue($success);
