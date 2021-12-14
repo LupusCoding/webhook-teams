@@ -1,10 +1,10 @@
 {
-  "name": "lupuscoding/ms-teams",
+  "name": "lupuscoding/webhook-teams",
   "description": "Easily send messages to MS Teams.",
   "version": "1.0.0",
   "type": "library",
   "keywords": ["microsoft","teams"],
-  "homepage": "http://github.com/lupuscoding/ms-teams",
+  "homepage": "http://github.com/lupuscoding/webhook-teams",
   "license": "MIT",
   "authors": [
     {
