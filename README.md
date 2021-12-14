@@ -1,6 +1,6 @@
 # webhook-teams - MS Teams Webhook Package
 
-A small library to send messages to MicroSoft Teams.
+A small library to create messages for Microsoft Teams.
 
 ## Contents
  - [Requirements](#requirements)
@@ -21,7 +21,98 @@ composer require lupuscoding/ms-teams
 
 ## Usage <a id="usage" href="#usage">#</a>
 
-@TODO ...
+### Create a message card
+```php
+// Insert uses
+use \LupusCoding\Webhooks\Teams\MessageCard;
+use \LupusCoding\Webhooks\Teams\ThemeColor;
+// Create the card
+$card = new MessageCard();
+$card->setThemeColor(ThemeColor::SUCCESS)
+    ->setSummary('My summary');
+```
+
+### Create a message card section
+```php
+use \LupusCoding\Webhooks\Teams\MessageSection;
+use \LupusCoding\Webhooks\Teams\MessageCard;
+// Create the section
+$section = new MessageSection();
+$section->setActivityTitle('My activity')
+    ->setActivitySubtitle('This is a subtitle')
+    ->setActivityImage('https://some/image.png')
+    ->addFact('My fact', 'This is awesome')
+    ->setMarkdown(false);
+// Add section to card
+$card = new MessageCard();
+$card->addSection($section);
+```
+
+### Create an action card
+```php
+// Insert uses
+use \LupusCoding\Webhooks\Teams\ActionCard;
+use \LupusCoding\Webhooks\Teams\ThemeColor;
+// Create the card
+$card = new ActionCard();
+$card->setName('my-action-name')
+    ->setThemeColor(ThemeColor::DEBUG);
+```
+
+### Create an action card input
+```php
+use \LupusCoding\Webhooks\Teams\ActionCard;
+use \LupusCoding\Webhooks\Teams\Input\TextInput;
+// Create the input
+$input = new TextInput();
+$input->setId('input1')
+    ->setTitle('Type something in')
+    ->setMultiline(true)
+    ;
+// Add input to card
+$card = new ActionCard();
+$card->addInput($input);
+```
+
+### Create an action card action
+```php
+use \LupusCoding\Webhooks\Teams\ActionCard;
+use \LupusCoding\Webhooks\Teams\CardAction\HttpPost;
+// Create the action
+$action = new HttpPost();
+$action->setName('Click me')
+    ->setTarget('http://lupuscoding.de');
+// Add action to card
+$card = new ActionCard();
+$card->addAction($action);
+```
+
+### Send a card
+```php
+use \LupusCoding\Webhooks\Teams\MessageCard;
+$card = new MessageCard();
+    
+// Setup the hook url
+$hookUrl = 'https://webhook.site/253013d5-4960-4857-85c4-596998c26e10';
+// Init curl request
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+curl_setopt($ch, CURLOPT_URL, $hookUrl);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($card));
+curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type:application/x-www-form-urlencoded']);
+// Send request
+$result = curl_exec($ch);
+curl_close($ch);
+// Test result
+if (curl_errno($ch)) {
+    // Failure
+} else {
+    // Success
+}
+```
 
 ## Development <a id="development" href="#development">#</a>
 
@@ -48,3 +139,5 @@ Then start phpunit by executing
 ```shell
 vendor/bin/phpunit
 ```
+**Optional:** Look at the webhook test site, to check if the request was sent 
+and if the received data is correct.
