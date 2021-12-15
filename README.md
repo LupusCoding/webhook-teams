@@ -24,8 +24,8 @@ composer require lupuscoding/webhook-teams
 ### Create a message card
 ```php
 // Insert uses
-use \LupusCoding\Webhooks\Teams\MessageCard;
-use \LupusCoding\Webhooks\Teams\ThemeColor;
+use LupusCoding\Webhooks\Teams\MessageCard;
+use LupusCoding\Webhooks\Teams\ThemeColor;
 // Create the card
 $card = new MessageCard();
 $card->setThemeColor(ThemeColor::SUCCESS)
@@ -34,8 +34,8 @@ $card->setThemeColor(ThemeColor::SUCCESS)
 
 ### Create a message card section
 ```php
-use \LupusCoding\Webhooks\Teams\MessageSection;
-use \LupusCoding\Webhooks\Teams\MessageCard;
+use LupusCoding\Webhooks\Teams\MessageSection;
+use LupusCoding\Webhooks\Teams\MessageCard;
 // Create the section
 $section = new MessageSection();
 $section->setActivityTitle('My activity')
@@ -51,8 +51,8 @@ $card->addSection($section);
 ### Create an action card
 ```php
 // Insert uses
-use \LupusCoding\Webhooks\Teams\ActionCard;
-use \LupusCoding\Webhooks\Teams\ThemeColor;
+use LupusCoding\Webhooks\Teams\ActionCard;
+use LupusCoding\Webhooks\Teams\ThemeColor;
 // Create the card
 $card = new ActionCard();
 $card->setName('my-action-name')
@@ -61,8 +61,8 @@ $card->setName('my-action-name')
 
 ### Create an action card input
 ```php
-use \LupusCoding\Webhooks\Teams\ActionCard;
-use \LupusCoding\Webhooks\Teams\Input\TextInput;
+use LupusCoding\Webhooks\Teams\ActionCard;
+use LupusCoding\Webhooks\Teams\Input\TextInput;
 // Create the input
 $input = new TextInput();
 $input->setId('input1')
@@ -76,8 +76,8 @@ $card->addInput($input);
 
 ### Create an action card action
 ```php
-use \LupusCoding\Webhooks\Teams\ActionCard;
-use \LupusCoding\Webhooks\Teams\CardAction\HttpPost;
+use LupusCoding\Webhooks\Teams\ActionCard;
+use LupusCoding\Webhooks\Teams\CardAction\HttpPost;
 // Create the action
 $action = new HttpPost();
 $action->setName('Click me')
@@ -89,7 +89,7 @@ $card->addAction($action);
 
 ### Send a card
 ```php
-use \LupusCoding\Webhooks\Teams\MessageCard;
+use LupusCoding\Webhooks\Teams\MessageCard;
 $card = new MessageCard();
     
 // Setup the hook url
@@ -129,7 +129,11 @@ an array of arrays or objects. Consider a doc block entry like
 
 ## Testing <a id="testing" href="#testing">#</a>
 
-Webhook test site: https://webhook.site/#!/253013d5-4960-4857-85c4-596998c26e10/b0e46b22-c680-4e62-b28c-74c4d9e737b7/1
+Webhook test site: https://webhook.site/#!/253013d5-4960-4857-85c4-596998c26e10/
+
+*If for any reason, the above mentioned url will not work or if you want to have a clean testing endpoint, you may 
+visit https://webhook.site/ to create your own endpoint. You will need to modify the ```WEBHOOK_URL``` constant inside 
+the ```MessageCardTest``` and ```ActionCardTest``` class.*
 
 First install **phpunit** by executing
 ```shell

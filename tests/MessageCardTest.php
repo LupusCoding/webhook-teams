@@ -15,6 +15,8 @@ use PHPUnit\Framework\TestCase;
  */
 class MessageCardTest extends TestCase
 {
+    const WEBHOOK_URL = 'https://webhook.site/253013d5-4960-4857-85c4-596998c26e10';
+
     /**
      * @covers \LupusCoding\Webhooks\Teams\MessageCard
      */
@@ -170,9 +172,6 @@ class MessageCardTest extends TestCase
      */
     public function testSendMessageCard(): void
     {
-        $success = false;
-        $hookUrl = 'https://webhook.site/253013d5-4960-4857-85c4-596998c26e10';
-
         $potentialAction = new OpenUri();
         $potentialAction->setName('Click me')
             ->addTarget('http://lupuscoding.de');
@@ -186,7 +185,7 @@ class MessageCardTest extends TestCase
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-        curl_setopt($ch, CURLOPT_URL, $hookUrl);
+        curl_setopt($ch, CURLOPT_URL, self::WEBHOOK_URL);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($card));
@@ -196,10 +195,9 @@ class MessageCardTest extends TestCase
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         $result = curl_exec($ch);
-        if (curl_errno($ch)) {
+        $success = (curl_errno($ch) === 0);
+        if (!$success) {
             throw new Exception("Error: " . curl_error($ch));
-        } else {
-            $success = true;
         }
         // uncomment debug output if required:
 //        print_r(__METHOD__ . ' Result: ' . $result);
