@@ -1,7 +1,7 @@
 {
   "name": "lupuscoding/webhook-teams",
   "description": "A small library to create messages for Microsoft Teams",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "library",
   "keywords": ["microsoft","teams"],
   "homepage": "http://github.com/lupuscoding/webhook-teams",
