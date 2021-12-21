@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace LupusCoding\Webhooks\TeamsTests;
+
 use LupusCoding\Webhooks\Teams\Input\DateInput;
 use LupusCoding\Webhooks\Teams\Input\MultichoiceInput;
 use LupusCoding\Webhooks\Teams\Input\TextInput;

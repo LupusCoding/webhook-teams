@@ -129,12 +129,6 @@ an array of arrays or objects. Consider a doc block entry like
 
 ## Testing <a id="testing" href="#testing">#</a>
 
-Webhook test site: https://webhook.site/#!/253013d5-4960-4857-85c4-596998c26e10/
-
-*If for any reason, the above mentioned url will not work or if you want to have a clean testing endpoint, you may 
-visit https://webhook.site/ to create your own endpoint. You will need to modify the ```WEBHOOK_URL``` constant inside 
-the ```MessageCardTest``` and ```ActionCardTest``` class.*
-
 First install **phpunit** by executing
 ```shell
 composer install
@@ -143,5 +137,15 @@ Then start phpunit by executing
 ```shell
 vendor/bin/phpunit
 ```
-**Optional:** Look at the webhook test site, to check if the request was sent 
-and if the received data is correct.
+### Further Testing (optional)
+
+Every test request is sent to [Pipedream](https://pipedream.com). This site processes the requests and build valid 
+responses. Also every request is forwarded to this 
+[Request Bin](https://requestbin.com/r/endbm4lp2m3c/22cBM6FMBVLXLFMBCoN8ZbpxOnk), so that you can view the request data.
+
+To inspect the requests, you can login with your GitHub account and copy my published 
+[Webhook Workflow](https://pipedream.com/@lupuscoding/lupuscoding-webhook-ms-teams-test-p_NMC1PWj). Please make sure to
+change the **publicBinUrl** variable inside the workflow nodejs step, to your own [Request Bin](https://requestbin.com).
+<br/>
+After creating your Pipedream Webhook Workflow, just modify the ```WEBHOOK_URL``` constant inside the 
+```MessageCardTest``` and ```ActionCardTest``` class.*

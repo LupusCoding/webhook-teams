@@ -1,6 +1,6 @@
 {
   "name": "lupuscoding/webhook-teams",
-  "description": "Easily send messages to MS Teams.",
+  "description": "A small library to create messages for Microsoft Teams",
   "version": "1.0.0",
   "type": "library",
   "keywords": ["microsoft","teams"],
@@ -24,7 +24,8 @@
   },
   "autoload": {
     "psr-4": {
-      "LupusCoding\\Webhooks\\Teams\\": "src/"
+      "LupusCoding\\Webhooks\\Teams\\": "src/",
+      "LupusCoding\\Webhooks\\TeamsTests\\": "tests/"
     }
   }
 }

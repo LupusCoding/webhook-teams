@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
+namespace LupusCoding\Webhooks\TeamsTests;
+
 use LupusCoding\Webhooks\Teams\AbstractCard;
 use LupusCoding\Webhooks\Teams\MessageAction\OpenUri;
 use LupusCoding\Webhooks\Teams\MessageCard;
 use LupusCoding\Webhooks\Teams\MessageSection;
+use LupusCoding\Webhooks\TeamsTests\SenderLib\Sender;
 use LupusCoding\Webhooks\Teams\ThemeColor;
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 class MessageCardTest extends TestCase
 {
-    const WEBHOOK_URL = 'https://webhook.site/253013d5-4960-4857-85c4-596998c26e10';
+    const WEBHOOK_URL = 'https://enlkvoeh7ebfj64.m.pipedream.net';
 
     /**
      * @covers \LupusCoding\Webhooks\Teams\MessageCard
@@ -99,8 +102,6 @@ class MessageCardTest extends TestCase
             ]),
             json_encode($card)
         );
-        // uncomment debug output if required:
-//        print_r(__METHOD__ . ' JSON: ' . json_encode($card->jsonSerialize()));
     }
 
     /**
@@ -125,8 +126,6 @@ class MessageCardTest extends TestCase
             json_encode($assertData),
             json_encode($card)
         );
-        // uncomment debug output if required:
-//        print_r(__METHOD__ . ' JSON: ' . json_encode($card->jsonSerialize()));
     }
 
     private function getSerializationAssertionData(): array
@@ -182,27 +181,10 @@ class MessageCardTest extends TestCase
             ->addSection($this->createMessageSection())
             ->addPotentialAction($potentialAction);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-        curl_setopt($ch, CURLOPT_URL, self::WEBHOOK_URL);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($card));
+        $sender = new Sender(self::WEBHOOK_URL);
+        $sender->send($card);
 
-        $headers = array();
-        $headers[] = 'Content-Type:application/x-www-form-urlencoded';
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-        $result = curl_exec($ch);
-        $success = (curl_errno($ch) === 0);
-        if (!$success) {
-            throw new Exception("Error: " . curl_error($ch));
-        }
-        // uncomment debug output if required:
-//        print_r(__METHOD__ . ' Result: ' . $result);
-
-        curl_close($ch);
-        $this->assertTrue($success);
+        $this->assertTrue($sender->isSuccess());
+        $this->assertEquals('MessageCard', $sender->getBody()['type']);
     }
 }

@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
+namespace LupusCoding\Webhooks\TeamsTests;
+
 use LupusCoding\Webhooks\Teams\AbstractCard;
 use LupusCoding\Webhooks\Teams\ActionCard;
 use LupusCoding\Webhooks\Teams\CardAction\HttpPost;
 use LupusCoding\Webhooks\Teams\Input\TextInput;
+use LupusCoding\Webhooks\TeamsTests\SenderLib\Sender;
 use LupusCoding\Webhooks\Teams\ThemeColor;
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ActionCardTest extends TestCase
 {
-    const WEBHOOK_URL = 'https://webhook.site/253013d5-4960-4857-85c4-596998c26e10';
+    const WEBHOOK_URL = 'https://enlkvoeh7ebfj64.m.pipedream.net';
 
     /**
      * @covers \LupusCoding\Webhooks\Teams\ActionCard
@@ -69,8 +72,6 @@ class ActionCardTest extends TestCase
             ]),
             json_encode($card)
         );
-        // uncomment debug output if required:
-//        print_r(__METHOD__ . ' JSON: ' . json_encode($card->jsonSerialize()));
     }
 
     /**
@@ -90,8 +91,6 @@ class ActionCardTest extends TestCase
             json_encode($assertData),
             json_encode($card)
         );
-        // uncomment debug output if required:
-//        print_r(__METHOD__ . ' JSON: ' . json_encode($card->jsonSerialize()));
     }
 
     private function createTextInput(): TextInput
@@ -142,36 +141,16 @@ class ActionCardTest extends TestCase
      */
     public function testSendActionCard(): void
     {
-        $success = false;
-        $hookUrl = 'https://webhook.site/253013d5-4960-4857-85c4-596998c26e10';
-
         $card = new ActionCard();
         $card->setName('phpunit-test')
             ->setThemeColor(ThemeColor::DEBUG)
             ->addInput( $this->createTextInput() )
             ->addAction( $this->createHttpPostAction() );
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-        curl_setopt($ch, CURLOPT_URL, self::WEBHOOK_URL);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($card));
+        $sender = new Sender(self::WEBHOOK_URL);
+        $sender->send($card);
 
-        $headers = array();
-        $headers[] = 'Content-Type:application/x-www-form-urlencoded';
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-        $result = curl_exec($ch);
-        $success = (curl_errno($ch) === 0);
-        if (!$success) {
-            throw new Exception("Error: " . curl_error($ch));
-        }
-        // uncomment debug output if required:
-//        print_r(__METHOD__ . ' Result: ' . $result);
-
-        curl_close($ch);
-        $this->assertTrue($success);
+        $this->assertTrue($sender->isSuccess());
+        $this->assertEquals('ActionCard', $sender->getBody()['type']);
     }
 }
